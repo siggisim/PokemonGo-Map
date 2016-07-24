@@ -126,7 +126,17 @@ def parse_map(map_dict, iteration_num, step, step_location):
                 'disappear_time': d_t
             }
 
-            
+            print "=======POSTING======="
+            r = requests.post('http://gottapwn.com/marker', data = {
+                'type': 'pokemon',
+                'key': p['spawnpoint_id'],
+                'disappear_time': d_t.isoformat(),
+                'icon': 'static/icons/%d.png' % p['pokemon_data']['pokemon_id'],
+                'lat': p['latitude'],
+                'long': p['longitude'],
+                'name': get_pokemon_name(p['pokemon_data']['pokemon_id']),
+                'pokemon_id': p['pokemon_data']['pokemon_id'],
+            })
 
         if iteration_num > 0 or step > 50:
             for f in cell.get('forts', []):
