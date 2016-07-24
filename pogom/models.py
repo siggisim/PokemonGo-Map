@@ -129,7 +129,7 @@ def parse_map(map_dict, iteration_num, step, step_location):
             requests.post('http://gottapwn.com/marker', data = {
                 'type': 'pokemon',
                 'key': p['spawnpoint_id'],
-                'disappear_time': datetime.fromtimestamp(d_t).isoformat(),
+                'disappear_time': d_t.isoformat(),
                 'icon': 'static/icons/%d.png' % p['pokemon_data']['pokemon_id'],
                 'lat': p['latitude'],
                 'long': p['longitude'],
