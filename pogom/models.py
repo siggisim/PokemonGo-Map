@@ -7,6 +7,7 @@ from peewee import Model, SqliteDatabase, InsertQuery, IntegerField,\
 from datetime import datetime
 from datetime import timedelta
 from base64 import b64encode
+import requests
 
 from .utils import get_pokemon_name, get_args
 from .transform import transform_from_wgs_to_gcj
@@ -124,6 +125,17 @@ def parse_map(map_dict, iteration_num, step, step_location):
                 'longitude': p['longitude'],
                 'disappear_time': d_t
             }
+
+            requests.post('http://gottapwn.com/marker', data = {
+                'type': 'pokemon',
+                'key': p['spawnpoint_id'],
+                'disappear_time': datetime.fromtimestamp(d_t).isoformat(),
+                'icon': 'static/icons/%d.png' % p['pokemon_data']['pokemon_id'],
+                'lat': p['latitude'],
+                'long': p['longitude'],
+                'name': get_pokemon_name(p['pokemon_id']),
+                'pokemon_id': p['pokemon_data']['pokemon_id'],
+            })
 
         if iteration_num > 0 or step > 50:
             for f in cell.get('forts', []):
